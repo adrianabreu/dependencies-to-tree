@@ -1,24 +1,37 @@
 # dependencies-to-tree
+The idea of this project is to be able to visualize complex dependencies graphs.
 
-## Project setup
+
+## Model
+The model should contain the following properties:
+
 ```
-npm install
+{
+    "jobs": [
+        {
+            "jobName": "a"
+        },
+        {
+            "jobName": "b",
+            "dependencies": [
+                {
+                    "jobName": "a"
+                }
+            ]
+        },
+        {
+            "jobName": "c",
+            "dependencies": [
+                {
+                    "jobName": "b"
+                }
+            ]
+        }
+    ]
+}
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## How to use it
+Just parse the json and click the button!
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## License

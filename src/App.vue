@@ -8,9 +8,8 @@
         <textarea v-model="inputJson" class="form-body_input"></textarea>
       </div>
       <div class="form-submit">
-        <button type="button">Draw graph</button>
+        <button @click="drawGraph(inputJson)" type="button">Draw graph</button>
       </div>
-      {{inputJson}}
     </div>
     <div id="graph">
     </div>
@@ -20,61 +19,40 @@
 <script>
 import Sigma from 'sigma';
 import ('sigma/build/plugins/sigma.parsers.json.min');
+import {mapJsonToNode} from './utils/jobmapper';
+
 export default {
   name: 'App',
   components: {
     
   },
+  sigma: null,
   data: function() {
     return {
       inputJson: ''
     }
   },
-  mounted: function() {
-    let s = new sigma({
-      graph: {
-        nodes: [
-          {
-            "id": "n0",
-            "label": "A node",
-            "x": 0,
-            "y": 0,
-            "size": 3
-          },
-          {
-            "id": "n1",
-            "label": "Another node",
-            "x": 3,
-            "y": 1,
-            "size": 2
-          },
-          {
-            "id": "n2",
-            "label": "And a last one",
-            "x": 1,
-            "y": 3,
-            "size": 1
-          }],
-      edges: [
-        {
-          "id": "e0",
-          "source": "n0",
-          "target": "n1"
-        },
-        {
-          "id": "e1",
-          "source": "n1",
-          "target": "n2"
-        },
-        {
-          "id": "e2",
-          "source": "n2",
-          "target": "n0"
-        }]
-    }, 
-    container: 'graph'
-    })
-  }
+  methods: {
+    drawGraph : function(json) {
+      if (this.sigma) this.clearGraph()
+      this.sigma = new sigma({
+      graph: this.applyScale(mapJsonToNode(JSON.parse(json))), 
+      container: 'graph'
+      })
+      this.sigma.refresh()
+    },
+    clearGraph: function() {
+      this.sigma.graph.clear();
+      this.sigma.refresh();
+      this.sigma.kill();
+    },
+    applyScale: function(graph) {
+      return {
+        ...graph,
+        nodes: graph.nodes.map(n => ({...n, y: n.y * 4, x: n.x * 10}))
+      }
+    }
+  } 
 }
 </script>
 
@@ -89,9 +67,16 @@ export default {
 
 .header {
   width: 100%;
-  background-color: gray;
-  height: 4rem;
-  color: #2c3e50;
+  text-align: left;
+  padding-top:.5rem;
+  padding-bottom: .5rem;
+  padding-left: 1rem;
+
+  background-color: #2a7886;
+  color: #512b58;
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
+  font-size: 1.5rem;
+  font-weight: 200;
 }
 
 .form-body_input {
@@ -106,6 +91,7 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
+  background-color: #f1f3f4;
 }
 
 * {
@@ -113,10 +99,38 @@ body {
 }
 
 #graph {
-  width: 50%;
-  height: 400px;
-  margin: auto;
-  background-color:gray;
+  position: absolute;
+  width: 100%;
+  padding: 1rem;
+  height: 800px;
+}
+
+.sigma-scene {
+  left: 0;
+}
+
+.sigma-labels {
+  left: 0;
+}
+
+.sigma-mouse {
+  left: 0;
+}
+
+.form {
+    margin-top: 1rem;
+    margin: 0.5rem;
+}
+
+.form-submit button {
+    padding: .425rem .75rem;
+    border-radius: 4px;
+    box-shadow: none;
+    background-color: #79bac1;
+    color: #512b58;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 0;
 }
 
 </style>
