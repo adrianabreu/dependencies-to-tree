@@ -1,5 +1,6 @@
 module.exports = {
   lintOnSave: false,
+  publicPath: '/dependencies-to-graph/',
   configureWebpack: {
     resolve: {
       modules: [
