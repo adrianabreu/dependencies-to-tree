@@ -5,7 +5,9 @@
     </div>
     <div class="form">
       <div class="form-body">
-        <textarea v-model="inputJson" class="form-body_input"></textarea>
+        <textarea v-model="inputJson" class="form-body_input">
+
+        </textarea>
       </div>
       <div class="form-submit">
         <button @click="drawGraph(inputJson)" type="button">Draw graph</button>
@@ -29,8 +31,29 @@ export default {
   sigma: null,
   data: function() {
     return {
-      inputJson: ''
-    }
+      inputJson: `{
+    "jobs": [
+        {
+            "jobName": "a"
+        },
+        {
+            "jobName": "b",
+            "dependencies": [
+                {
+                    "jobName": "a"
+                }
+            ]
+        },
+        {
+            "jobName": "c",
+            "dependencies": [
+                {
+                    "jobName": "b"
+                }
+            ]
+        }
+    ]
+}`    }
   },
   methods: {
     drawGraph : function(json) {
@@ -68,14 +91,13 @@ export default {
 .header {
   width: 100%;
   text-align: left;
-  padding-top:.5rem;
-  padding-bottom: .5rem;
+  padding-top:.75rem;
+  padding-bottom: 1rem;
   padding-left: 1rem;
 
-  background-color: #2a7886;
-  color: #512b58;
-  font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
-  font-size: 1.5rem;
+  background-color: #f1f3f4;
+  color: #2a7886;
+  font-size: 1.25rem;
   font-weight: 200;
 }
 
@@ -85,6 +107,7 @@ export default {
   min-height: 316px;
   overflow-y: scroll;
   width: 100%;
+    border-radius: 4px;
 }
 
 body {
@@ -118,8 +141,8 @@ body {
 }
 
 .form {
-    margin-top: 1rem;
-    margin: 0.5rem;
+  padding: 1.5rem;
+  background-color: #2a7886;
 }
 
 .form-submit button {
@@ -127,10 +150,11 @@ body {
     border-radius: 4px;
     box-shadow: none;
     background-color: #79bac1;
-    color: #512b58;
+    color: #f1f3f4;
     font-weight: 600;
     font-size: 1rem;
     border: 0;
+    margin-top: 1rem;
 }
 
 </style>
