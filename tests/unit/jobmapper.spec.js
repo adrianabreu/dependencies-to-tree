@@ -224,4 +224,33 @@ describe("JobMapper", () => {
     expect(actual).to.deep.equal(expected);
   });
 
+  it("should not fail with only nodes and no edges", () => {
+    const input = {
+        jobs: [{
+            "jobName": "a"
+        },{
+            "jobName": "b"
+        }]
+    }
+
+    const expected = {
+        nodes: [{
+            "id": "a",
+            "label": "a",
+            "x": 0,
+            "y": 0,
+            "size": 2
+        },{
+            "id": "b",
+            "label": "b",
+            "x": 1,
+            "y": 0,
+            "size": 2
+        }],
+        edges: []
+    }
+
+    let actual = mapJsonToNode(input);
+    expect(actual).to.deep.equal(expected);
+  });
 });

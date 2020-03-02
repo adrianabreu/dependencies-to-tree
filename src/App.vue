@@ -5,7 +5,9 @@
     </div>
     <div class="form">
       <div class="form-body">
-        <textarea v-model="inputJson" class="form-body_input"></textarea>
+        <textarea v-model="inputJson" class="form-body_input">
+
+        </textarea>
       </div>
       <div class="form-submit">
         <button @click="drawGraph(inputJson)" type="button">Draw graph</button>
@@ -29,8 +31,29 @@ export default {
   sigma: null,
   data: function() {
     return {
-      inputJson: ''
-    }
+      inputJson: `{
+    "jobs": [
+        {
+            "jobName": "a"
+        },
+        {
+            "jobName": "b",
+            "dependencies": [
+                {
+                    "jobName": "a"
+                }
+            ]
+        },
+        {
+            "jobName": "c",
+            "dependencies": [
+                {
+                    "jobName": "b"
+                }
+            ]
+        }
+    ]
+}`    }
   },
   methods: {
     drawGraph : function(json) {

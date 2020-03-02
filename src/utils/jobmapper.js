@@ -11,7 +11,7 @@ export function mapJsonToNode(inputJson)
 }
 
 export function calculateEdges(jsonArray) {
-    return jsonArray.filter(job =>  Array.isArray(job.dependencies)).map((job,i) => {
+    return jsonArray.filter(job => Array.isArray(job.dependencies)).map((job,i) => {
         return job.dependencies.map((dependency,j) => {
             return {
                 id: (i + 'a') + (j + 'e'),
@@ -19,7 +19,7 @@ export function calculateEdges(jsonArray) {
                 target:job.jobName
             }
         });
-    }).reduce((a,b) => a.concat(b));
+    }).reduce((a,b) => a.concat(b), []);
 }
 
 export function calculateYForNodes(jsonArray) {
@@ -48,6 +48,7 @@ export function calculateYForNodes(jsonArray) {
 }
 
 export function calculateXForNodes(jsonArray) {
+    console.log(jsonArray);
     let indexForRoot = 0;
     let registeredX = {};
     let array = jsonArray.map(job => {
